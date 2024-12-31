@@ -5,6 +5,7 @@ import { useNavigate , useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
+
 function Spinner({path = 'login'}) {
   const [count, setCount] = useState(3);
   const navigate = useNavigate();

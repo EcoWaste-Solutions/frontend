@@ -18,7 +18,7 @@ function AnimatedGlobe() {
 
 function HomePage() {
   const [auth] = useAuth();
-  
+
   return (
     <>
       <Layout title={"Home-Waste Management"}>
@@ -46,7 +46,7 @@ function HomePage() {
             ) : (
               <>
                 <Link
-                  to={"/reportwaste"}
+                  to={"/dashboard/reportWaste"}
                   className="text-white bg-green-700 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-lg px-6 py-3 text-center inline-flex items-center"
                 >
                   Report Waste
@@ -80,7 +80,7 @@ function HomePage() {
             </h2>
             <div className="grid md:grid-cols-4 gap-6 font-medium">
               <ImpactCard title="Waste Collected" icon={Recycle} />
-              <ImpactCard title="Reports Submitted" value='' icon={MapPin} />
+              <ImpactCard title="Reports Submitted" value="" icon={MapPin} />
               <ImpactCard title="Tokens Earned" icon={Coins} />
               <ImpactCard title="CO2 Offset" icon={Leaf} />
             </div>
@@ -129,6 +129,6 @@ ImpactCard.propTypes = {
   title: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.elementType.isRequired,
-}
+};
 
 export default HomePage;

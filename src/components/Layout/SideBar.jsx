@@ -52,7 +52,7 @@ function SideBar({ open }) {
             </li>
             <li>
               <NavLink
-                to={'/dashboard'}
+                to={'/dashboard/resident'}
                 className={({ isActive }) =>
                   `flex items-center p-2 rounded-lg ${
                     isActive

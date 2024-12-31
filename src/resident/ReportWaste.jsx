@@ -13,7 +13,7 @@ import { message } from "antd";
 import { useAuth } from "../context/Auth";
 
 function ReportWaste() {
-  const [files, setFiles] = useState(null);
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
   const [auth] = useAuth();
@@ -21,7 +21,7 @@ function ReportWaste() {
   const [formData, setFormData] = useState({
     description: "",
     location: "",
-    image: [],
+    image: "",
   });
 
   console.log(formData);
@@ -29,22 +29,20 @@ function ReportWaste() {
   const handleImageSubmit = async (e) => {
     e.preventDefault(); // Prevents default form submission behavior
 
-    if (files.length > 0 && files.length + formData.image.length < 7) {
+    if (file) {
       try {
-        const urls = await Promise.all(
-          Array.from(files).map((file) => storeImage(file))
-        );
+        const url = await storeImage(file);
         setFormData((prevData) => ({
           ...prevData,
-          image: [...prevData.image, ...urls],
+          image: url,
         }));
-        message.success("All IMAGES UPLOADED SUCCESSFULLY");
+        message.success("IMAGE UPLOADED SUCCESSFULLY");
       } catch (error) {
         console.error("Image upload failed:", error);
         message.error("IMAGE UPLOAD FAILED");
       }
     } else {
-      message.error("PLEASE UPLOAD AT LEAST 1 AND AT MOST 6 IMAGES");
+      message.error("PLEASE UPLOAD AN IMAGE");
     }
   };
 
@@ -78,10 +76,10 @@ function ReportWaste() {
   };
 
   //remove image
-  const handleRemoveImage = (index) => () => {
+  const handleRemoveImage = () => {
     setFormData((prevData) => ({
       ...prevData,
-      image: prevData.image.filter((_, i) => i !== index),
+      image: "",
     }));
   };
 
@@ -116,21 +114,17 @@ function ReportWaste() {
       const data = await res.json();
       console.log(data);
 
-      if (data) {
+      if (data.message === "SUCCESS") {
         message.success("WASTE REPORTED SUCCESSFULLY");
-        setFormData({
-          description: "",
-          location: "",
-          image: [],
-        });
+        navigate("/");
       }
     } catch (error) {
-      console.error("WASTE REPORT FAILED", error);
+      console.error("WASTE REPORTED FAILED", error);
       message.error("WASTE REPORT FAILED");
     }
   };
   return (
-    <Layout>
+    <Layout title={'Report-Waste'}>
       <div className="p-3 max-w-5xl mx-auto">
         <form
           className="bg-white p-8 rounded-2xl mb-12"
@@ -158,7 +152,7 @@ function ReportWaste() {
                       className="sr-only"
                       accept="image/*"
                       multiple
-                      onChange={(e) => setFiles(e.target.files)}
+                      onChange={(e) => setFile(e.target.files[0])}
                     />
                   </label>
                   <p className="pl-1">or drag and drop</p>
@@ -178,28 +172,21 @@ function ReportWaste() {
           </button>
 
           {
-            // Display the uploaded images
-            formData.image.length > 0 && (
-              <div className="">
-                {formData.image.map((url, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between p-3 border items-center"
-                  >
-                    <img
-                      src={url}
-                      alt="waste"
-                      className="w-40 h-20 object-cover rounded-lg"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleRemoveImage(index)}
-                      className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                    >
-                      DELETE
-                    </button>
-                  </div>
-                ))}
+            // Display the uploaded image
+            formData.image && (
+              <div className="flex justify-between p-3 border items-center">
+                <img
+                  src={formData.image}
+                  alt="waste"
+                  className="w-40 h-20 object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                >
+                  DELETE
+                </button>
               </div>
             )
           }

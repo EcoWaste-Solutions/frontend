@@ -97,7 +97,7 @@ function Header({ onMenuClick }) {
             <div className="mr-2 md:mr-4 flex items-center bg-gray-100 rounded-full px-2 md:px-3 py-1">
               <Coins className="h-4 w-4 md:h-5 md:w-5 mr-1 text-green-600" />
               <span className="font-semibold text-sm md:text-base text-gray-800">
-                0.00
+                {data?.reward}
               </span>
             </div>
             <div className="">
@@ -114,7 +114,6 @@ function Header({ onMenuClick }) {
                   <a onClick={(e) => e.preventDefault()}>
                     <Space>
                       <img src={data?.image} className="h-8 w-8 rounded-full" />
-                      <h1>{data?.name}</h1>
                       <DownOutlined />
                     </Space>
                   </a>
