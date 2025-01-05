@@ -112,25 +112,25 @@ function Login() {
             />
             <button
               type="submit"
-              className="w-full mb-2 bg-green-600 hover:bg-green-700 text-white py-3 text-lg rounded-xl transition-colors duration-300"
+              className="w-full mb-2 bg-green-600 hover:bg-green-700 text-white py-2 text-lg rounded-xl transition-colors duration-300"
             >
               Login
             </button>
           </form>
           <div className="flex flex-col">
             <div className="flex gap-2 mt-2 text-sm text-gray-800 font-medium">
+              <Link onClick={showModal} className="text-green-600">
+                Forgot Password?
+              </Link>
+            </div>
+
+            <hr className="mt-2"/>
+            <div className="flex gap-2 mt-2 text-sm text-gray-800 font-medium">
               <p>If You donnot have an accounnt?</p>
               <Link to="/register">
                 <span className="text-green-600">Register</span>
               </Link>
               <p>please</p>
-            </div>
-            <div className="flex gap-2 mt-2 text-sm text-gray-800 font-medium">
-              <p>Have you forgot your password? You can</p>
-              <Link onClick={showModal} className="text-green-600">
-                Recover
-              </Link>
-              <p>it now</p>
             </div>
           </div>
         </section>
@@ -156,7 +156,7 @@ function Login() {
               />
               <button
                 type="submit"
-                className="w-full mb-2 bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg rounded-xl transition-colors duration-300"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-2 text-lg rounded-xl transition-colors duration-300 flex items-center justify-center"
               >
                 Submit
               </button>

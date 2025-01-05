@@ -1,13 +1,10 @@
 import Layout from "../components/Layout/Layout";
-import useProfile from "../hooks/useProfile";
+import useAdminProfile from "../hooks/useAdminProfile";
 
-function ResidentProfile() {
-
-    const {data} = useProfile();
-
-  
+function AdminProfile() {
+  const { data } = useAdminProfile();
   return (
-    <Layout title={"Resident-Profile"}>
+    <Layout title={"Admin-Profile"}>
       <div className="p-3 max-w-5xl mx-auto">
         <div className="">
           <form className="bg-white p-8 rounded-2xl shadow-lg mb-2">
@@ -109,4 +106,4 @@ function ResidentProfile() {
   );
 }
 
-export default ResidentProfile;
+export default AdminProfile;

@@ -1,45 +1,51 @@
 import Layout from "../components/Layout/Layout";
 import useReports from "../hooks/useReports";
+import { MapPin } from "lucide-react";
 
 function Dashboard() {
   
   const { wasteReports } = useReports();
+  //console.log(wasteReports);
 
   return (
     <Layout title={"Resident-Dashboard"}>
-      <div className="p-3 max-w-5xl mx-auto">
-        <div className="relative overflow-x-auto">
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-100">
+            <thead className="bg-gray-50 sticky top-0">
               <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Location
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Description
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Rewards
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Image
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-gray-200">
               {wasteReports.length > 0 ? (
                 wasteReports.map((report) => (
-                  <tr key={report.id} className="bg-white border-b">
-                    <td className="px-3 py-2 font-medium text-gray-700">
+                  <tr key={report.id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <MapPin className="inline-block w-4 h-4 mr-2 text-green-500" />
                       {report.location}
                     </td>
-                    <td className="px-3 py-2 font-medium text-gray-700">
+                    <td className="px-6 py-4 whitespace-normal text-sm text-gray-500 max-w-xs break-words line-clamp-6">
                       {report.description}
                     </td>
-                    <td className="px-3 py-2 font-medium text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <span
                         className={`px-2 py-1 rounded ${
                           report.status === "resolved"
@@ -50,10 +56,10 @@ function Dashboard() {
                         {report.status}
                       </span>
                     </td>
-                    <td className="px-3 py-2 font-medium text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {report.reward}
                     </td>
-                    <td className="px-3 py-2 font-medium text-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {report.image.startsWith("http") ? (
                         <img
                           src={report.image}
@@ -63,6 +69,9 @@ function Dashboard() {
                       ) : (
                         "No image"
                       )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(report.date).toLocaleString()}
                     </td>
                   </tr>
                 ))

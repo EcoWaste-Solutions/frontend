@@ -7,9 +7,14 @@ import {
   Medal,
   Settings,
   LayoutDashboard,
+  Recycle,
+  ChartArea
 } from "lucide-react";
+import useDecodeData from "../../hooks/useDecodeData";
 
 function SideBar({ open }) {
+
+  const { role } = useDecodeData();
   
   return (
     <>
@@ -52,7 +57,7 @@ function SideBar({ open }) {
             </li>
             <li>
               <NavLink
-                to={'/dashboard/resident'}
+                to={"/dashboard/resident"}
                 className={({ isActive }) =>
                   `flex items-center p-2 rounded-lg ${
                     isActive
@@ -61,13 +66,13 @@ function SideBar({ open }) {
                   }`
                 }
               >
-                <LayoutDashboard size={24} className={"mr-2"} />
+                <LayoutDashboard size={24} className={"mr-2"}/>
                 <span className="ms-3">DashBoard</span>
               </NavLink>
             </li>
             <li>
               <NavLink
-                to={"/*"}
+                to={"/dashboard/rewards"}
                 className={({ isActive }) =>
                   `flex items-center p-2 rounded-lg ${
                     isActive
@@ -82,7 +87,7 @@ function SideBar({ open }) {
             </li>
             <li>
               <NavLink
-                to={"/*"}
+                to={"/leaderboard"}
                 className={({ isActive }) =>
                   `flex items-center p-2 rounded-lg ${
                     isActive
@@ -93,6 +98,38 @@ function SideBar({ open }) {
               >
                 <Medal size={24} className={"mr-2"} />
                 <span className="ms-3">Leaderboard</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to={"/dashboard/overview"}
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-lg ${
+                    isActive
+                      ? "bg-green-100 text-green-800"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`
+                }
+              >
+                <ChartArea size={24} className={"mr-2"} />
+                <span className="ms-3">Overview</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to={"/leaderboard"}
+                className={({ isActive }) =>
+                  `flex items-center p-2 rounded-lg ${
+                    isActive
+                      ? "bg-green-100 text-green-800"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`
+                }
+              >
+                <Recycle size={24} className={"mr-2"} />
+                <span className="ms-3">Recycle</span>
               </NavLink>
             </li>
           </ul>
