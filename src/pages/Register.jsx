@@ -162,7 +162,7 @@ function Register() {
           <button
             type="submit"
             onClick={handleImageSubmit}
-            className="w-full mb-2 bg-slate-600 hover:bg-slate-700 text-white py-3 text-lg rounded-xl transition-colors duration-300"
+            className="w-full mb-2 bg-slate-600 hover:bg-slate-700 text-white py-2 text-lg rounded-xl transition-colors duration-300"
           >
             Upload Image
           </button>
@@ -239,7 +239,7 @@ function Register() {
             />
             <button
               type="submit"
-              className="w-full mb-2 bg-green-600 hover:bg-green-700 text-white py-3 text-lg rounded-xl transition-colors duration-300"
+              className="w-full mb-2 bg-green-600 hover:bg-green-700 text-white py-2 text-lg rounded-xl transition-colors duration-300"
             >
               Register
             </button>

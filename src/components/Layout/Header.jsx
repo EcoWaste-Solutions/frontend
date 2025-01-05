@@ -5,8 +5,10 @@ import { DownOutlined } from "@ant-design/icons";
 import { Dropdown, Space, message } from "antd";
 import { useAuth } from "../../context/Auth";
 import useProfile from "../../hooks/useProfile";
+import useDecodeData from "../../hooks/useDecodeData";
 
-const items = (onLogout) => [
+
+const items = (onLogout , role) => [
   {
     key: "1",
     label: "My Account",
@@ -18,9 +20,10 @@ const items = (onLogout) => [
   {
     key: "2",
     label: (
-      <Link to={"/dashboard/profile"} className="cursor-pointer font-medium">
+      <Link to={role === "ADMIN" ? "/dashboard/adminprofile" : "/dashboard/profile"} className="cursor-pointer font-medium">
         Profile
       </Link>
+      
     ),
   },
   {
@@ -48,6 +51,8 @@ function Header({ onMenuClick }) {
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
   const { data } = useProfile();
+
+  const { role } = useDecodeData();
 
   const handleLogout = () => {
     setAuth({
@@ -110,7 +115,7 @@ function Header({ onMenuClick }) {
                   <LogIn className="ml-1 md:ml-2 h-4 w-4 md:h-5 md:w-5" />
                 </Link>
               ) : (
-                <Dropdown menu={{ items: items(handleLogout) }}>
+                <Dropdown menu={{ items: items(handleLogout , role) }}>
                   <a onClick={(e) => e.preventDefault()}>
                     <Space>
                       <img src={data?.image} className="h-8 w-8 rounded-full" />
