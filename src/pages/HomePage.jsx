@@ -26,12 +26,11 @@ function HomePage() {
           <section className="text-center mb-20">
             <AnimatedGlobe />
             <h1 className="text-5xl font-bold mb-6 text-gray-800 tracking-tight">
-              Our SDP Project{" "}
-              <span className="text-green-700">Waste Management</span>
+              Eco Waste <span className="text-green-700">Management</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
-              Join our community in making waste management more efficient and
-              rewarding!
+              Collect the waste, keep it neat, Together we’ll clean every
+              street! 🌱
             </p>
             {!auth.accessToken ? (
               <>
@@ -39,7 +38,7 @@ function HomePage() {
                   to={"/login"}
                   className="text-white bg-green-700 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-lg px-6 py-3 text-center inline-flex items-center"
                 >
-                  Get Started
+                  Get Started and Explore More
                   <ArrowRight className="ml-1 md:ml-2 h-4 w-4 md:h-5 md:w-5" />
                 </Link>
               </>

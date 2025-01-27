@@ -14,6 +14,10 @@ import AdminPrivateRoute from "./components/Routes/AdminPrivateRoute";
 import AdminProfile from "./admin/AdminProfile";
 import AdminDashboard from "./admin/AdminDashboard";
 import Overview from "./resident/Overview";
+import AnalysisReport from "./admin/AnalysisReport";
+import CollectorPrivateRoute from "./components/Routes/CollectorPrivateRoute";
+import CollectorDashboard from "./collector/CollectorDashboard";
+import CollectorProfile from "./collector/CollectorProfile";
 
 function App() {
   return (
@@ -36,9 +40,15 @@ function App() {
         <Route path="/dashboard" element={<AdminPrivateRoute/>}>
           <Route path="adminprofile" element={<AdminProfile/>} />
           <Route path="admin" element={<AdminDashboard/>} />
+          <Route path="analysisReport" element={<AnalysisReport/>} />
         </Route>
 
         <Route path="/leaderboard" element={<LeaderBoard/>} />
+
+        <Route path="/dashboard" element={<CollectorPrivateRoute/>}>
+          <Route path="collector" element={<CollectorDashboard/>} />
+          <Route path="collectorprofile" element={<CollectorProfile/>} />
+        </Route>
       </Routes>
     </>
   );

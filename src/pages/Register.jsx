@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Upload } from "lucide-react";
+import { Upload, Loader } from "lucide-react";
 import {
   getDownloadURL,
   getStorage,
@@ -8,10 +8,12 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { message } from "antd";
+import { message, Select } from "antd";
 
 function Register() {
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,22 +29,24 @@ function Register() {
   console.log(formData);
 
   const handleImageSubmit = async (e) => {
-    e.preventDefault(); // Prevents default form submission behavior
-
-    if (file) {
-      try {
-        const url = await storeImage(file);
-        setFormData((prevData) => ({
-          ...prevData,
-          image: url,
-        }));
-        message.success("IMAGE UPLOADED SUCCESSFULLY");
-      } catch (error) {
-        console.error("Image upload failed:", error);
-        message.error("IMAGE UPLOAD FAILED");
-      }
-    } else {
+    e.preventDefault();
+    if (!file) {
       message.error("PLEASE UPLOAD AN IMAGE");
+      return;
+    }
+    try {
+      setIsUploading(true);
+      const url = await storeImage(file);
+      setFormData((prevData) => ({
+        ...prevData,
+        image: url,
+      }));
+      message.success("IMAGE UPLOADED SUCCESSFULLY");
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      message.error("IMAGE UPLOAD FAILED");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -82,10 +86,18 @@ function Register() {
     }));
   };
 
-  const handleChange = (e) => {
+  const handleSelectChange = (value) => {
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      address: value,
+    }));
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
 
@@ -96,28 +108,32 @@ function Register() {
       message.error("PLEASE UPLOAD AN IMAGE");
       return;
     }
-
     try {
+      setIsLoading(true);
       const res = await fetch(`${import.meta.env.VITE_APP_API}/signup`, {
         method: "POST",
         headers: {
+          "ngrok-skip-browser-warning": "69420",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
       const data = await res.json();
-      console.log(data);
-
+      //console.log(data);
       if (data.message === "SUCCESS") {
         message.success("USER REGISTERED SUCCESSFULLY");
         navigate("/login");
+      } else {
+        message.error("REGISTRATION FAILED");
       }
     } catch (error) {
-      console.error("USER RESGITERD FAILED", error);
+      console.error("USER REGISTRATION FAILED", error);
       message.error("USER REGISTER FAILED");
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <>
       <div className="p-3 max-w-2xl mx-auto">
@@ -162,7 +178,7 @@ function Register() {
           <button
             type="submit"
             onClick={handleImageSubmit}
-            className="w-full mb-2 bg-slate-600 hover:bg-slate-700 text-white py-2 text-lg rounded-xl transition-colors duration-300"
+            className="w-full text-white bg-slate-600 hover:bg-slate-700 font-medium rounded-lg text-lg px-5 py-2 text-center inline-flex items-center  me-2 mb-2 justify-center"
           >
             Upload Image
           </button>
@@ -170,11 +186,11 @@ function Register() {
           {
             // Display the uploaded image
             formData.image && (
-              <div className="flex justify-between p-3 border items-center">
+              <div className="flex flex-col p-3 border gap-2">
                 <img
                   src={formData.image}
                   alt="waste"
-                  className="w-40 h-20 object-cover rounded-lg"
+                  className="max-w-full h-auto object-cover rounded-lg"
                 />
                 <button
                   type="button"
@@ -194,7 +210,7 @@ function Register() {
               name="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-2xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.email}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <input
@@ -204,7 +220,7 @@ function Register() {
               placeholder="Enter your phone"
               className="w-full px-4 py-2 border border-gray-300 rounded-2xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.phone}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <input
@@ -214,7 +230,7 @@ function Register() {
               placeholder="Enter your name"
               className="w-full px-4 py-2 border border-gray-300 rounded-2xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.name}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
             <input
@@ -224,24 +240,70 @@ function Register() {
               placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded-2xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500"
               value={formData.password}
-              onChange={handleChange}
+              onChange={handleInputChange}
               required
             />
-            <input
-              type="address"
-              id="address"
-              name="address"
-              placeholder="Enter your address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-2xl bg-slate-100 focus:outline-none focus:ring-2 focus:ring-green-500"
-              value={formData.address}
-              onChange={handleChange}
-              required
+            <Select
+              value={formData.location}
+              onChange={handleSelectChange}
+              name="location"
+              showSearch
+              className="w-full focus:outline-none"
+              placeholder="Search to Select"
+              optionFilterProp="label"
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? "")
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? "").toLowerCase())
+              }
+              options={[
+                {
+                  value: "Mohammadpur",
+                  label: "Mohammadpur",
+                },
+                {
+                  value: "Dhanmondi",
+                  label: "Dhanmondi",
+                },
+                {
+                  value: "Mirpur",
+                  label: "Mirpur",
+                },
+                {
+                  value: "Uttara",
+                  label: "Uttara",
+                },
+                {
+                  value: "Gulshan",
+                  label: "Gulshan",
+                },
+                {
+                  value: "Banani",
+                  label: "Banani",
+                },
+                {
+                  value: "Shahbag",
+                  label: "Shahbag",
+                },
+                {
+                  value: "Farmgate",
+                  label: "Farmgate",
+                },
+              ]}
             />
             <button
               type="submit"
-              className="w-full mb-2 bg-green-600 hover:bg-green-700 text-white py-2 text-lg rounded-xl transition-colors duration-300"
+              className="w-full text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-lg px-5 py-2 text-center inline-flex items-center  me-2 mb-2 justify-center"
+              disabled={isLoading}
             >
-              Register
+              {isLoading ? (
+                <>
+                  <Loader className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
+                  Register ...
+                </>
+              ) : (
+                "Register"
+              )}
             </button>
           </div>
         </form>

@@ -3,3 +3,5 @@ npm i react-router-dom
 npm i helmet
 npm i jwt-decode
 npm install @mui/x-charts
+npm install react-icons --save
+
