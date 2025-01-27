@@ -14,6 +14,7 @@ function useProfile() {
     fetch(`${import.meta.env.VITE_APP_API}/resident/getProfile`, {
       method: "GET",
       headers: {
+        "ngrok-skip-browser-warning": "69420",
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
       },

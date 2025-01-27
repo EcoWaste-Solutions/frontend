@@ -5,17 +5,14 @@ import {
   MapPin,
   Coins,
   Medal,
-  Settings,
   LayoutDashboard,
-  Recycle,
-  ChartArea
+  ChartSpline,
 } from "lucide-react";
 import useDecodeData from "../../hooks/useDecodeData";
 
 function SideBar({ open }) {
-
   const { role } = useDecodeData();
-  
+
   return (
     <>
       <aside
@@ -40,116 +37,125 @@ function SideBar({ open }) {
                 <span className="ms-3">Home</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to={"/dashboard/reportWaste"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <MapPin size={24} className={"mr-2"} />
-                <span className="ms-3">Report Waste</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"/dashboard/resident"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <LayoutDashboard size={24} className={"mr-2"}/>
-                <span className="ms-3">DashBoard</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"/dashboard/rewards"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <Coins size={24} className={"mr-2"} />
-                <span className="ms-3">Rewards</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to={"/leaderboard"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <Medal size={24} className={"mr-2"} />
-                <span className="ms-3">Leaderboard</span>
-              </NavLink>
-            </li>
+            {role === "RESIDENT" && (
+              <>
+                <li>
+                  <NavLink
+                    to={"/dashboard/reportWaste"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <MapPin size={24} className={"mr-2"} />
+                    <span className="ms-3">Report Waste</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/dashboard/resident"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <LayoutDashboard size={24} className={"mr-2"} />
+                    <span className="ms-3">DashBoard</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/dashboard/rewards"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <Coins size={24} className={"mr-2"} />
+                    <span className="ms-3">Rewards</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/leaderboard"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <Medal size={24} className={"mr-2"} />
+                    <span className="ms-3">Leaderboard</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
-            <li>
-              <NavLink
-                to={"/dashboard/overview"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <ChartArea size={24} className={"mr-2"} />
-                <span className="ms-3">Overview</span>
-              </NavLink>
-            </li>
+            {role === "ADMIN" && (
+              <>
+                <li>
+                  <NavLink
+                    to={"/dashboard/admin"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <LayoutDashboard size={24} className={"mr-2"} />
+                    <span className="ms-3">Admin Dashboard</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/dashboard/analysisReport"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <ChartSpline size={24} className={"mr-2"} />
+                    <span className="ms-3">Analytics</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
-            <li>
-              <NavLink
-                to={"/leaderboard"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <Recycle size={24} className={"mr-2"} />
-                <span className="ms-3">Recycle</span>
-              </NavLink>
-            </li>
-          </ul>
-
-          <ul className="font-medium">
-            <li>
-              <NavLink
-                to={"/*"}
-                className={({ isActive }) =>
-                  `flex items-center p-2 rounded-lg ${
-                    isActive
-                      ? "bg-green-100 text-green-800"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`
-                }
-              >
-                <Settings size={24} className={"mr-2"} />
-                <span className="ms-3">Settings</span>
-              </NavLink>
-            </li>
+            {role === "COLLECTOR" && (
+              <>
+                <li>
+                  <NavLink
+                    to={"/dashboard/collector"}
+                    className={({ isActive }) =>
+                      `flex items-center p-2 rounded-lg ${
+                        isActive
+                          ? "bg-green-100 text-green-800"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`
+                    }
+                  >
+                    <LayoutDashboard size={24} className={"mr-2"} />
+                    <span className="ms-3">Collector Dashboard</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </aside>

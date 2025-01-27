@@ -1,7 +1,7 @@
 import { useEffect , useState} from 'react'
 import { useAuth } from '../context/Auth'
 
-function useAdminProfile() {
+function useCollectorProfile() {
     const [auth] = useAuth();
     const [data, setData] = useState({});
   
@@ -11,7 +11,7 @@ function useAdminProfile() {
     // console.log(datai);
   
     useEffect(() => {
-      fetch(`${import.meta.env.VITE_APP_API}/admin/getProfile`, {
+      fetch(`${import.meta.env.VITE_APP_API}/collector/getProfile`, {
         method: "GET",
         headers: {
           "ngrok-skip-browser-warning": "69420",
@@ -33,4 +33,4 @@ function useAdminProfile() {
     return { data };
 }
 
-export default useAdminProfile
+export default useCollectorProfile
